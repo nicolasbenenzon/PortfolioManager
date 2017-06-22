@@ -80,13 +80,14 @@ public class Portfolio {
 		return sum;
 	}
 	
-	private double getAllAcquiredValues() { //updated
+	public double getAllAcquiredValues() { //updated
 		double sum = 0;
 		for(Asset asset : getHoldings().keySet()) {
 			sum += getHoldings().get(asset).getMoneyInvested();
 		}
 		return sum;
 	}
+	
 	
 	private void operate(Asset asset, int amount, double price) {
 		

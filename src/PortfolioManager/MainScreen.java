@@ -115,6 +115,8 @@ public class MainScreen {
 		frmPortfolioManager.setBounds(100, 100, 949, 616);
 		frmPortfolioManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPortfolioManager.getContentPane().setLayout(null);
+		Portfolio miPortfolio=new Portfolio();
+		miPortfolio.setCash(100000);
 		
 		panelPortfolio = new JPanel();
 		panelPortfolio.setBounds(10, 138, 921, 437);
@@ -126,16 +128,25 @@ public class MainScreen {
 		panelPortfolio.add(lblNetWorth);
 		lblNetWorth.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
-		JLabel lblNetWorth_V = new JLabel("$100500");
+		JLabel lblNetWorth_V = new JLabel("$" +miPortfolio.getNetWorth());
 		lblNetWorth_V.setBounds(193, 120, 123, 29);
 		panelPortfolio.add(lblNetWorth_V);
-		lblNetWorth_V.setForeground(new Color(0, 128, 0));
+		if(miPortfolio.getNetWorth()<0){
+			lblNetWorth_V.setForeground(new Color(255, 0, 0));
+		}else{
+			lblNetWorth_V.setForeground(new Color(0, 128, 0));
+		}
+		
 		lblNetWorth_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
-		JLabel lblOverallGains_V = new JLabel("$500");
+		JLabel lblOverallGains_V = new JLabel("$"+miPortfolio.getOverallGains());
 		lblOverallGains_V.setBounds(193, 159, 123, 29);
 		panelPortfolio.add(lblOverallGains_V);
-		lblOverallGains_V.setForeground(new Color(0, 128, 0));
+		if(miPortfolio.getOverallGains()<0){
+			lblOverallGains_V.setForeground(new Color(255, 0, 0));
+		}else{
+			lblOverallGains_V.setForeground(new Color(0, 128, 0));
+		}		
 		lblOverallGains_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
 		JLabel lblOverallGains = new JLabel("Overall Gains");
@@ -148,13 +159,23 @@ public class MainScreen {
 		panelPortfolio.add(lblOverallReturns);
 		lblOverallReturns.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
-		JLabel lblOverallReturns_V = new JLabel("0,5%");
+		JLabel lblOverallReturns_V;
+		if(miPortfolio.getOverallReturns()==0.0){
+			lblOverallReturns_V = new JLabel(miPortfolio.getOverallReturns()+"%");		
+		}else{
+			lblOverallReturns_V = new JLabel("--");	
+		}
 		lblOverallReturns_V.setBounds(193, 203, 123, 29);
 		panelPortfolio.add(lblOverallReturns_V);
-		lblOverallReturns_V.setForeground(new Color(0, 128, 0));
+		if(miPortfolio.getOverallReturns()<0){
+			lblOverallReturns_V.setForeground(new Color(255, 0, 0));
+		}else{
+			lblOverallReturns_V.setForeground(new Color(0, 128, 0));
+		}
+		
 		lblOverallReturns_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
-		JLabel lblInvested_V = new JLabel("$25500");
+		JLabel lblInvested_V = new JLabel("$"+miPortfolio.getAllAcquiredValues());
 		lblInvested_V.setBounds(193, 243, 123, 29);
 		panelPortfolio.add(lblInvested_V);
 		lblInvested_V.setForeground(new Color(0, 128, 0));
@@ -170,7 +191,7 @@ public class MainScreen {
 		panelPortfolio.add(lblNotInvested);
 		lblNotInvested.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
-		JLabel lblNotInvested_V = new JLabel("$75000");
+		JLabel lblNotInvested_V = new JLabel("$"+ miPortfolio.getCash());
 		lblNotInvested_V.setBounds(193, 283, 123, 29);
 		panelPortfolio.add(lblNotInvested_V);
 		lblNotInvested_V.setForeground(new Color(0, 128, 0));
