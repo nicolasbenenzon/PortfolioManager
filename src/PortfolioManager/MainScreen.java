@@ -1,3 +1,4 @@
+package PortfolioManager;
 import java.awt.EventQueue;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -44,6 +45,7 @@ public class MainScreen {
 	private JSpinner spDolarOficial;
 	private JSpinner spDolarBlue;
 	private Panel panelConversor;
+	private JButton btnOperationHistory;
 
 	/**
 	 * Launch the application.
@@ -90,9 +92,6 @@ public class MainScreen {
 			tblStocks.setVisible(true);
 		}
 		else if(module == "FUTUROS"){
-			tblStocks.setVisible(true);
-		}
-		else if(module == "FOREX"){
 			tblStocks.setVisible(true);
 		}
 		else if(module == "COMMODITIES"){
@@ -238,6 +237,10 @@ public class MainScreen {
 		lblNewsDesc3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewsDesc3.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		
+		btnOperationHistory = new JButton("Ver historial de operaciones");
+		btnOperationHistory.setBounds(39, 399, 223, 26);
+		panelPortfolio.add(btnOperationHistory);
+		
 		lblTitle = new JLabel("PORTFOLIO");
 		lblTitle.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 26));
@@ -308,17 +311,6 @@ public class MainScreen {
 		btnFutures.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panelMenu.add(btnFutures);
 		
-		JButton btnForex = new JButton("FOREX");
-		btnForex.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				changeModule("FOREX");
-			}
-		});
-		btnForex.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnForex.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		panelMenu.add(btnForex);
-		
 		JButton btnCommodities = new JButton("Commodities");
 		btnCommodities.addMouseListener(new MouseAdapter() {
 			@Override
@@ -351,6 +343,10 @@ public class MainScreen {
 		btnConversor.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnConversor.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panelMenu.add(btnConversor);
+		btnBonos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		
 		Timer marketInfoTimer = new Timer();
 		marketInfoTimer.scheduleAtFixedRate(new TimerTask() {
@@ -445,7 +441,7 @@ public class MainScreen {
 		
 		panelConversor = new Panel();
 		panelConversor.setVisible(false);
-		panelConversor.setBounds(10, 138, 921, 437);
+		panelConversor.setBounds(10, 581, 921, -6);
 		frmPortfolioManager.getContentPane().add(panelConversor);
 		panelConversor.setLayout(null);
 		
@@ -478,9 +474,5 @@ public class MainScreen {
 		spDolarBlue.setFont(new Font("Dialog", Font.BOLD, 18));
 		spDolarBlue.setBounds(493, 194, 183, 33);
 		panelConversor.add(spDolarBlue);
-		btnBonos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 	}
 }
