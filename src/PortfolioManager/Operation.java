@@ -30,13 +30,21 @@ public class Operation implements Serializable{
 	private final boolean isBuyingOperation;
 	private final Asset asset;
 	private final Date date;
+	/**
+	 * Amount of the asset to be purchased/sold
+	 */
 	private final int purchaseAmount;
+	/**
+	 * Value of a single unit of the asset
+	 */
 	private final double purchaseValue;
 	
 	//Asegurar que purchaseAmount sea positivo
 	
 	public Operation(boolean isBuyingOperation, Asset asset, Date date, int purchaseAmount){
 		
+		if(purchaseAmount < 0)
+			throw new NegativeAssetAmountException();
 		this.isBuyingOperation = isBuyingOperation;
 		this.purchaseValue = asset.getValue();
 		this.purchaseAmount = purchaseAmount;

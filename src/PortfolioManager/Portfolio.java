@@ -90,14 +90,21 @@ public class Portfolio {
 	
 	
 	private void operate(Asset asset, int amount, double price) {
-		
-		PurchaseInfo info = holdings.get(asset);
-		if(info.getAssetAmount() + amount == 0)
+		PurchaseInfo info;
+		if(!holdings.containsKey(asset)) {
+			if(amount <= 0)
+				throw new NegativeAssetAmountException();
+			holdings.put(asset, new PurchaseInfo(amount * price, amount));
+		}
+		else if(holdings.get(asset).getAssetAmount() + amount == 0) {
 			holdings.remove(asset);
+		}
 		else {
+			info = holdings.get(asset);
 			info.setMoneyInvested(info.getMoneyInvested() + (amount * price));
 			info.setAssetAmount(info.getAssetAmount() + amount);
 		}
+		setCash(getCash() + amount * price);
 	}
 	/**
 	 * Adds an operation to the current Portfolio. If the user already had acquired a certain amount of
@@ -106,18 +113,20 @@ public class Portfolio {
 	 * @param operation Operation to be added.
 	 * @throws Exception 
 	 */
-	public void addOperation(Operation operation) throws Exception {
+	public void addOperation(Operation operation) throws NegativeAssetAmountException, 
+														 InsufficientFundsException {
 		
 		if(operation.isBuyingOperation()) {
 			double amount = operation.getPurchaseAmount() * operation.getPurchaseValue();
 			if(amount > getCash() )
-				throw new Exception("Insuficient funds");
+				throw new InsufficientFundsException();
 			else
 				operate(operation.getAsset(), operation.getPurchaseAmount(), operation.getPurchaseValue());
 		}
 		else {
-			if(holdings.get(operation.getAsset()).getAssetAmount() < operation.getPurchaseAmount() )
-				throw new Exception("Insuficient assets to sell");
+			if(!holdings.containsKey(operation.getAsset()) 
+					|| holdings.get(operation.getAsset()).getAssetAmount() < operation.getPurchaseAmount())
+				throw new NegativeAssetAmountException();
 			else
 				operate(operation.getAsset(), -1 * operation.getPurchaseAmount(), operation.getPurchaseValue());
 				
