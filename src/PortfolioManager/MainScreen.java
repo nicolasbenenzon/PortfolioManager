@@ -1,5 +1,6 @@
 package PortfolioManager;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -32,6 +33,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JSpinner;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ChangeEvent;
 
 public class MainScreen {
@@ -402,7 +405,31 @@ public class MainScreen {
 		tblStocks = new JTable();
 		tblStocks.setFont(new Font("Dialog", Font.PLAIN, 16));
 		tblStocks.setRowHeight(32);
-		tblStocks.setRowSelectionAllowed(false);
+		tblStocks.setRowSelectionAllowed(true);
+
+		tblStocks.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	        	JFrame ventana = new JFrame();
+	        	ventana.setResizable(false);
+	    		ventana.setTitle("Operar");
+	    		ventana.setBounds(100, 100, 300, 200);
+	    		ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    		ventana.getContentPane().setLayout(null);
+	    		JTextField texto=new JTextField(10);
+	    		//texto.setText("");
+	    		JLabel l=new JLabel("Ingrese la cantidad a comprar");
+	    		l.setBounds(50, 0, 200,50);;
+	    		l.setVisible(true);
+	    		ventana.add(l);
+	    		texto.setBounds(100, 100, 100,40 );
+	    		texto.setVisible(true);
+	    		ventana.add(texto);
+	    		ventana.setVisible(true);
+	    		
+	    		//int cant= Integer.parseInt(texto.getText());
+	           //ACA deberia llamar a operate
+	        }
+	    });
 		tblStocks.setVisible(false);
 		tblStocks.setModel(new DefaultTableModel(
 			new Object[][] {
