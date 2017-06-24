@@ -75,7 +75,6 @@ public class Portfolio {
 		
 		for(Asset asset : getHoldings().keySet()) {
 			sum += asset.getValue() * getHoldings().get(asset).getAssetAmount();
-			
 		}
 		return sum;
 	}
@@ -92,8 +91,6 @@ public class Portfolio {
 	private void operate(Asset asset, int amount, double price) {
 		PurchaseInfo info;
 		if(!holdings.containsKey(asset)) {
-			/*if(amount <= 0) se verifica antes de entrar aca
-				throw new NegativeAssetAmountException();*/ 
 			holdings.put(asset, new PurchaseInfo(amount * price, amount));
 		}
 		else if(holdings.get(asset).getAssetAmount() + amount == 0) {
@@ -108,10 +105,11 @@ public class Portfolio {
 	}
 	/**
 	 * Adds an operation to the current Portfolio. If the user already had acquired a certain amount of
-	 * a specific asset and wishes to buy more, these should be merged.
+	 * a specific asset and wishes to buy more, these are merged.
 	 * 
 	 * @param operation Operation to be added.
-	 * @throws Exception 
+	 * @throws NegativeAssetAmountException
+	 * @throws InsufficientFundsException
 	 */
 	public void addOperation(Operation operation) throws NegativeAssetAmountException, 
 														 InsufficientFundsException {
@@ -125,15 +123,14 @@ public class Portfolio {
 		}
 		else {
 			if(!holdings.containsKey(operation.getAsset()) 
-					|| holdings.get(operation.getAsset()).getAssetAmount() < operation.getPurchaseAmount())
+					|| holdings.get(operation.getAsset()).getAssetAmount() < operation.getPurchaseAmount()){
 				throw new NegativeAssetAmountException();
+			}
 			else
 				operate(operation.getAsset(), -1 * operation.getPurchaseAmount(), operation.getPurchaseValue());
 				
 		}
-		
 		history.add(operation);
-		
 		calcNetWorth();
 		calcGains();
 		calcReturns();

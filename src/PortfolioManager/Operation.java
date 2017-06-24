@@ -86,22 +86,15 @@ public class Operation implements Serializable{
 		ObjectOutputStream oos = null;
 		
 		try {
-			
 			fos = new FileOutputStream(fileName);
 			oos = new ObjectOutputStream(fos);
 			oos.writeObject(operation);
 			oos.close();
-			
 		} catch (FileNotFoundException e) {
-			
 			e.printStackTrace();
-			
 		} catch(IOException e) {
-			
 			e.printStackTrace();
-			
 		}		
-		
 	}
 	/*Hay lo que decia santi
 	 *  de manejar el flujo con 
@@ -117,15 +110,12 @@ public class Operation implements Serializable{
 		ObjectInputStream ois = null;
 		
 		try {
-			
 			fis = new FileInputStream(fileName);  
-			ois = new ObjectInputStream(fis);
-	    	  
+			ois = new ObjectInputStream(fis); 
 	    	while(true) {
 	    		Operation operation = (Operation) ois.readObject();	
 	    		operationList.add(operation);
 	    	}
-	    	
 	    } catch (EOFException expectedException) {
 	    	  //continue to finally block
 	    } catch (ClassNotFoundException cnf) {
