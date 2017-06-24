@@ -1,5 +1,6 @@
 package PortfolioManager;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -10,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,6 +41,7 @@ public class MainScreen {
 	private JLabel lblMarketInfo;
 	private JTable tblStocks;
 	private JScrollPane stocksScroll;
+	private JScrollPane historyScroll;
 	private JSpinner spDolarOficial;
 	private JSpinner spDolarBlue;
 	private Panel panelConversor;
@@ -76,6 +79,7 @@ public class MainScreen {
 	private void ClearScreen(){
 		panelPortfolio.setVisible(false);
 		stocksScroll.setVisible(false);
+		historyScroll.setVisible(false);
 		panelConversor.setVisible(false);
 	}
 	
@@ -268,6 +272,45 @@ public class MainScreen {
 		lblNews3.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		btnOperationHistory = new JButton("Ver historial de operaciones");
+		btnOperationHistory.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				/*Clickeo el boton*/
+				
+				JFrame window = new JFrame();
+	        	window.setResizable(false);
+	        	window.setTitle("Historial de Operaciones");
+	        	window.setBounds(100, 100, 800, 600);
+	        	window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	        	window.getContentPane().setLayout(null);
+	        	String col[]={"Nombre", "Fecha", "Cant. de Acciones", "Monto gastado", "Tipo de Operacion"};
+	        	DefaultTableModel modelHistory = new DefaultTableModel(col, 0);
+	        	
+	        	
+	        	for(Operation o: Operation.readFromFile()){
+	        		String data[]={o.getAsset().getName(), o.getDate().toString(),  Integer.toString(o.getAsset().getAmount()),"$" + Double.toString(o.getPurchaseAmount()),"  " + (o.isBuyingOperation()?"Compra":"Venta")};
+	        		
+	        		modelHistory.addRow(data);
+
+	        	}
+	        	
+	        	JTable tblHistory = new JTable(modelHistory);
+	    		tblHistory.setPreferredScrollableViewportSize(new Dimension(400, 300));
+	    		tblHistory.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	    		tblHistory.setFont(new Font("Dialog", Font.PLAIN, 16));
+	    		tblHistory.setRowHeight(32);
+	    		tblHistory.setVisible(true);
+	    		historyScroll = new JScrollPane(tblHistory);
+	    		historyScroll.setBounds(10, 10, 700, 700);
+	    		historyScroll.setVisible(true);
+	    		
+	    		window.add(historyScroll);
+	    		window.setVisible(true);
+	    		tblHistory.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+	    		tblHistory.setBounds(10, 10, 700, 700);
+	    		/*Cierre click boton*/
+			}
+		});
 		btnOperationHistory.setBounds(39, 399, 223, 26);
 		panelPortfolio.add(btnOperationHistory);
 		
@@ -447,8 +490,14 @@ public class MainScreen {
 	        	
 	        	String cant = JOptionPane.showInputDialog("Ingrese la cantidad a comprar");
 	    		
-	    		//int cant= Integer.parseInt(texto.getText());
-	           //ACA deberia llamar a operate
+	    		//double value, double min, double max, double open, double close, double variation, int amount,
+				//String name, String ticker
+	    		/*int amount= Integer.parseInt(cant);
+	    		tblStocks.getValueAt(tblStocks.getSelectedRow(), 0);
+	    		Asset a= new Asset();
+	    		Operation op= new Operation(true, a, new Date(), cant);
+	    		miPortfolio.addOperation(op);*/
+	    		
 	        }
 	    });
 		tblStocks.setVisible(false);

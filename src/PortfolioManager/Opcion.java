@@ -1,6 +1,11 @@
 package PortfolioManager;
 import java.util.Date;
 
+/**
+ * @author Agustin Bossi & Alejandro Santoflaminio
+ *
+ */
+
 public class Opcion extends Expire{
 
 	String type;

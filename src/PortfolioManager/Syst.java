@@ -49,7 +49,7 @@ public class Syst {
 		Document doc = null;
 		boolean loaded = false;
 		List<Stock> mervalStocks = new ArrayList<Stock>();
-		Stock aux = new Stock();
+		//Stock aux = new Stock();
 		try {
 			doc = Jsoup.connect("http://www.merval.sba.com.ar/Vistas/Cotizaciones/Acciones.aspx").get();
 			loaded = true;
@@ -70,9 +70,9 @@ public class Syst {
 				added++;
 			}
 			for(int i = 0; i < tickers.length; i++){
-				aux.ticker = tickers[i];
-				aux.value = Double.parseDouble(prices[i]);
-				mervalStocks.add(aux);
+				//aux.ticker = tickers[i];
+				//aux.value = Double.parseDouble(prices[i]);
+				//mervalStocks.add(aux);
 			}
 			return mervalStocks;
 		}

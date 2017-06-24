@@ -1,5 +1,10 @@
 package PortfolioManager;
 
+/**
+ * @author Agustin Bossi & Alejandro Santoflaminio
+ *
+ */
+
 @SuppressWarnings("serial")
 public class Bono extends Asset{
 	

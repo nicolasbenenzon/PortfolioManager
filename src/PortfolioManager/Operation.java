@@ -103,7 +103,7 @@ public class Operation implements Serializable{
 	 *   
 	 *   Esto esta bien en archivos, no queda otra (me parece?)
 	*/
-	public Collection<Operation> readFromFile() {  
+	public static Collection<Operation> readFromFile() {  
 		List<Operation> operationList = new ArrayList<Operation>();
 		String fileName = "operationHistory.ser";
 		FileInputStream fis = null;

@@ -1,5 +1,10 @@
 package PortfolioManager;
 
+/**
+ * @author Agustin Bossi & Alejandro Santoflaminio
+ *
+ */
+
 public class Futuro extends Asset {
 
 	public Futuro(double value, double min, double max, double open, double close, double variation, int amount,

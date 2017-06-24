@@ -1,6 +1,11 @@
 package PortfolioManager;
 import java.util.Date;
 
+/**
+ * @author Agustin Bossi & Alejandro Santoflaminio
+ *
+ */
+
 public class Expire extends Asset{
 	Date expiration;
 
