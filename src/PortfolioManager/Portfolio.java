@@ -86,7 +86,7 @@ public class Portfolio {
 		}
 		return sum;
 	}
-	
+	 
 	
 	private void operate(Asset asset, int amount, double price) {
 		PurchaseInfo info;
@@ -121,7 +121,7 @@ public class Portfolio {
 			else
 				operate(operation.getAsset(), operation.getPurchaseAmount(), operation.getPurchaseValue());
 		}
-		else {
+		else { System.out.println("hola");
 			if(!holdings.containsKey(operation.getAsset()) 
 					|| holdings.get(operation.getAsset()).getAssetAmount() < operation.getPurchaseAmount()){
 				throw new NegativeAssetAmountException();
@@ -153,3 +153,4 @@ public class Portfolio {
 		return tableData;
 	}
 }
+

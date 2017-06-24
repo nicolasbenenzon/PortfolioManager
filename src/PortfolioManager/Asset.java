@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 public abstract class Asset implements Serializable{
 
+	
 	private static final long serialVersionUID = -3130240257539577230L;
 	double value;
 	double min;
@@ -57,6 +58,11 @@ public abstract class Asset implements Serializable{
 			return false;
 		return true;
 	}
+	@Override
+	public String toString() {
+		return this.getTicker();
+	}
+	
 	
 	public double getValue() {
 		return value;

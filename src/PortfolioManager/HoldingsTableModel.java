@@ -21,6 +21,7 @@ public class HoldingsTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
+		System.out.println(myPortfolio.getHoldings().keySet().size());
 		return myPortfolio.getHoldings().keySet().size();
 	}
 
@@ -28,7 +29,7 @@ public class HoldingsTableModel extends AbstractTableModel {
 	public int getColumnCount() {
 		return 3;
 	}
-	
+	 
 	@Override
 	public String getColumnName(int column) {
 		if(column == 0)
@@ -38,7 +39,10 @@ public class HoldingsTableModel extends AbstractTableModel {
 		else
 			return "MoneyInvested";
 	}
-
+	
+	public void addRow(int firstRow, int lastRow) {
+        this.fireTableRowsInserted(firstRow, lastRow);
+    }
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Asset assetRequested = null;

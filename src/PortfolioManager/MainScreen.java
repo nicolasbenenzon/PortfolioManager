@@ -1,6 +1,5 @@
 package PortfolioManager;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -13,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -31,7 +31,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-
+ 
 public class MainScreen {
 
 	private JFrame frmPortfolioManager;
@@ -79,7 +79,6 @@ public class MainScreen {
 	private void ClearScreen(){
 		panelPortfolio.setVisible(false);
 		stocksScroll.setVisible(false);
-		historyScroll.setVisible(false);
 		panelConversor.setVisible(false);
 	}
 	
@@ -216,7 +215,8 @@ public class MainScreen {
 		JTable tblHoldings = new JTable();
 		tblHoldings.setBounds(323, 33, 270, 392);
 		tblHoldings.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tblHoldings.setModel(new HoldingsTableModel(miPortfolio));
+		HoldingsTableModel holdingsTableModel = new HoldingsTableModel(miPortfolio);
+		tblHoldings.setModel(holdingsTableModel);
 		/*tblHoldings.setModel(new DefaultTableModel(
 				miPortfolio.toArray(), new String[] {"Ticker", "AssetAmount", "MoneyInvested"})
 				{
@@ -285,11 +285,12 @@ public class MainScreen {
 	        	window.getContentPane().setLayout(null);
 	        	String col[]={"Nombre", "Fecha", "Cant. de Acciones", "Monto gastado", "Tipo de Operacion"};
 	        	DefaultTableModel modelHistory = new DefaultTableModel(col, 0);
-	        	
+
 	        	
 	        	for(Operation o: Operation.readFromFile()){
-	        		String data[]={o.getAsset().getName(), o.getDate().toString(),  Integer.toString(o.getAsset().getAmount()),"$" + Double.toString(o.getPurchaseAmount()),"  " + (o.isBuyingOperation()?"Compra":"Venta")};
 	        		
+	        		String data[]={o.getAsset().getName(), o.getDate().toString(),  Integer.toString(o.getAsset().getAmount()),"$" + Double.toString(o.getPurchaseAmount()),"  " + (o.isBuyingOperation()?"Compra":"Venta")};
+        		
 	        		modelHistory.addRow(data);
 
 	        	}
@@ -470,37 +471,30 @@ public class MainScreen {
 		tblStocks.setRowHeight(32);
 
 		tblStocks.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
-	        	/*JFrame ventana = new JFrame();
-	        	ventana.setResizable(false);
-	    		ventana.setTitle("Operar");
-	    		ventana.setBounds(100, 100, 300, 200);
-	    		ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	    		ventana.getContentPane().setLayout(null);
-	    		JTextField texto=new JTextField(10);
-	    		//texto.setText("");
-	    		JLabel l=new JLabel("Ingrese la cantidad a comprar");
-	    		l.setBounds(50, 0, 200,50);;
-	    		l.setVisible(true);
-	    		ventana.getContentPane().add(l);
-	    		texto.setBounds(100, 100, 100,40 );
-	    		texto.setVisible(true);
-	    		ventana.getContentPane().add(texto);
-	    		ventana.setVisible(true);*/
-	        	
+	        public void valueChanged(ListSelectionEvent event) {	        	
 	        	String cant = JOptionPane.showInputDialog("Ingrese la cantidad a comprar");
-	    		
-	    		//double value, double min, double max, double open, double close, double variation, int amount,
-				//String name, String ticker
-	    		/*int amount= Integer.parseInt(cant);
-	    		tblStocks.getValueAt(tblStocks.getSelectedRow(), 0);
-	    		Asset a= new Asset();
-	    		Operation op= new Operation(true, a, new Date(), cant);
-	    		miPortfolio.addOperation(op);*/
-	    		
+	        	int index = tblStocks.getSelectedRow();
+	        	Stock currentAsset = (Stock) tblStocks.getValueAt(index, 0);
+	        	int cantidad;
+	        	try {
+	        		cantidad = Integer.parseInt(cant);
+	        		Operation op = new Operation(true, currentAsset, new Date(), cantidad);
+		        	miPortfolio.addOperation(op);
+		    		holdingsTableModel.addRow(0, 0);
+	        	}
+	        	catch(NumberFormatException e) {
+	        		JOptionPane.showMessageDialog(new JFrame(), "Debe ingresar un número.", "Error", JOptionPane.ERROR_MESSAGE);
+	        	}
 	        }
 	    });
 		tblStocks.setVisible(false);
+		List<Stock> miLista = new ArrayList<>();
+		Stock miStock = new Stock(5, 1, 4, 5, 4, 3, 6, "Jaja", "JAJAJ");
+		Stock miStock2 = new Stock(5, 1, 4, 5, 4, 3, 6, "Name", "Ticker");
+		miLista.add(miStock);
+		miLista.add(miStock2);
+		tblStocks.setModel(new StocksTableModel(miLista));
+		/*
 		tblStocks.setModel(new DefaultTableModel(
 			new Object[][] {
 				{"AGRO", "42,000", "-0,59%", "2.575.038", "60.728"},
@@ -545,14 +539,15 @@ public class MainScreen {
 				return columnEditables[column];
 			}
 		});
+		*/
 		tblStocks.getColumnModel().getColumn(0).setResizable(false);
 		tblStocks.getColumnModel().getColumn(1).setResizable(false);
 		tblStocks.getColumnModel().getColumn(1).setPreferredWidth(101);
-		tblStocks.getColumnModel().getColumn(2).setResizable(false);
+		/*tblStocks.getColumnModel().getColumn(2).setResizable(false);
 		tblStocks.getColumnModel().getColumn(3).setResizable(false);
 		tblStocks.getColumnModel().getColumn(3).setPreferredWidth(127);
 		tblStocks.getColumnModel().getColumn(4).setResizable(false);
-		tblStocks.getColumnModel().getColumn(4).setPreferredWidth(145);
+		tblStocks.getColumnModel().getColumn(4).setPreferredWidth(145);*/
 		tblStocks.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		tblStocks.setBounds(10, 138, 921, 437);
 		stocksScroll = new JScrollPane(tblStocks);
