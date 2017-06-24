@@ -38,6 +38,7 @@ public class MainScreen {
 	private JPanel panelPortfolio;
 	private JLabel lblMarketInfo;
 	private JTable tblStocks;
+	private JScrollPane stocksScroll;
 	private JSpinner spDolarOficial;
 	private JSpinner spDolarBlue;
 	private Panel panelConversor;
@@ -74,7 +75,7 @@ public class MainScreen {
 	
 	private void ClearScreen(){
 		panelPortfolio.setVisible(false);
-		tblStocks.setVisible(false);
+		stocksScroll.setVisible(false);
 		panelConversor.setVisible(false);
 	}
 	
@@ -86,21 +87,27 @@ public class MainScreen {
 		}
 		else if(module == "ACCIONES"){
 			tblStocks.setVisible(true);
+			stocksScroll.setVisible(true);
 		}
 		else if(module == "BONOS"){
 			tblStocks.setVisible(true);
+			stocksScroll.setVisible(true);
 		}
 		else if(module == "OPCIONES"){
 			tblStocks.setVisible(true);
+			stocksScroll.setVisible(true);
 		}
 		else if(module == "FUTUROS"){
 			tblStocks.setVisible(true);
+			stocksScroll.setVisible(true);
 		}
 		else if(module == "COMMODITIES"){
 			tblStocks.setVisible(true);
+			stocksScroll.setVisible(true);
 		}
 		else if(module == "CCL"){
 			tblStocks.setVisible(true);
+			stocksScroll.setVisible(true);
 		}
 		else if(module == "CONVERSOR"){
 			panelConversor.setVisible(true);
@@ -499,8 +506,9 @@ public class MainScreen {
 		tblStocks.getColumnModel().getColumn(4).setPreferredWidth(145);
 		tblStocks.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		tblStocks.setBounds(10, 138, 921, 437);
-		JScrollPane stocksScroll = new JScrollPane(tblStocks);
+		stocksScroll = new JScrollPane(tblStocks);
 		stocksScroll.setBounds(10, 138, 921, 437);
+		stocksScroll.setVisible(false);
 		frmPortfolioManager.getContentPane().add(stocksScroll);
 		
 		panelConversor = new Panel();
