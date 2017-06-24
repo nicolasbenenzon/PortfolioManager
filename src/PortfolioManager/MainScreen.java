@@ -482,6 +482,10 @@ public class MainScreen {
 		        	miPortfolio.addOperation(op);
 		    		holdingsTableModel.addRow(0, 0);
 	        	}
+	        	catch(NegativeAssetAmountException e) {
+	        		JOptionPane.showMessageDialog(new JFrame(), "No puede comprar una cantidad negativa/nula"
+	        				+ " de activos.", "Error", JOptionPane.ERROR_MESSAGE);
+	        	}
 	        	catch(NumberFormatException e) {
 	        		JOptionPane.showMessageDialog(new JFrame(), "Debe ingresar un número.", "Error", JOptionPane.ERROR_MESSAGE);
 	        	}
