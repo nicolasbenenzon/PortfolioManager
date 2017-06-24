@@ -1,6 +1,7 @@
 package PortfolioManager;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,11 +18,11 @@ import org.jsoup.select.Elements;
  */
 public class Syst {
 	
-	List<Stock> stocks;
-	List<Commodity> commodities;
-	List<Futuro> futuros;
-	List<Bono> bonos;
-	List<Opcion> opciones;
+	private static List<Stock> stocks;
+	private static List<Commodity> commodities;
+	private static List<Futuro> futuros;
+	private static List<Bono> bonos;
+	private static List<Opcion> opciones;
 
 	public Syst(List<Stock> stocks, List<Commodity> commodities, List<Futuro> futuros, List<Bono> bonos,
 			List<Opcion> opciones) {
@@ -33,8 +34,8 @@ public class Syst {
 		this.opciones = opciones;
 	}
 
-	void UpdateValuesFromInternet(){
-		stocks = new ArrayList<Stock>();
+	public static void UpdateValuesFromInternet(){
+		stocks = getStocksFromMerval();
 		commodities = new ArrayList<Commodity>();
 		futuros = new ArrayList<Futuro>();
 		bonos = new ArrayList<Bono>();
@@ -42,6 +43,40 @@ public class Syst {
 		
 		
 		
+	}
+	
+	private static List<Stock> getStocksFromMerval(){
+		Document doc = null;
+		boolean loaded = false;
+		List<Stock> mervalStocks = new ArrayList<Stock>();
+		Stock aux = new Stock();
+		try {
+			doc = Jsoup.connect("http://www.merval.sba.com.ar/Vistas/Cotizaciones/Acciones.aspx").get();
+			loaded = true;
+		} catch (IOException e) {
+			
+		}
+		if(loaded){
+			String[] tickers = doc.select("td.txtGrisTabla_ConBorde a.link").text().split(" ");
+			String[] parsedData = doc.select("td.txtGrisTabla_ConBorde ~ td.txtGrisTabla_ConBorde").text().replaceAll("0,00 %", "skip").split(" ");
+			final List<String> list = new ArrayList<String>();
+			Collections.addAll(list, parsedData); 
+			list.removeAll(Collections.singleton("skip"));
+			parsedData = list.toArray(new String[list.size()]);
+			String[] prices = new String[tickers.length];
+			int added = 0;
+			for(int i = 5; i < parsedData.length; i+=9){
+				prices[added] = parsedData[i].replace(",", ".");
+				added++;
+			}
+			for(int i = 0; i < tickers.length; i++){
+				aux.ticker = tickers[i];
+				aux.value = Double.parseDouble(prices[i]);
+				mervalStocks.add(aux);
+			}
+			return mervalStocks;
+		}
+		return null;
 	}
 	
 	public static void LoadNewsFromInternet(){
@@ -64,6 +99,7 @@ public class Syst {
 	        news4 = doc.select(".entry-box .entry-data h3 a").first().text();
 		}
 		MainScreen.setNews(news1, news2, news3, news4);
+		getStocksFromMerval();
 	}
 	
 	void GetBestCCL(){}
@@ -110,4 +146,3 @@ public class Syst {
 		this.opciones = opciones;
 	}
 }
-
