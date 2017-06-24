@@ -2,7 +2,7 @@ package PortfolioManager;
 
 import javax.swing.table.AbstractTableModel;
 /**
- * TableModel to be used by a JTable to display the user's current holdings.
+ * TableModel to be used by a JTable to display the user's current holdings. 
  * 
  * @author Tomas Ferrer
  *
