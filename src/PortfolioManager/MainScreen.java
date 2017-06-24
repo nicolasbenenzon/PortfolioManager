@@ -1,45 +1,34 @@
 package PortfolioManager;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
-import java.awt.BorderLayout;
-import javax.swing.border.BevelBorder;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JPanel;
-import javax.swing.JToolBar;
-import java.awt.Panel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-
-import java.awt.Label;
-import java.awt.Color;
-import javax.swing.JInternalFrame;
-import javax.swing.JTable;
-import java.awt.Cursor;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.MatteBorder;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.ListSelectionModel;
-import java.awt.Dimension;
+import javax.swing.table.DefaultTableModel;
 
 public class MainScreen {
 
@@ -128,8 +117,11 @@ public class MainScreen {
 		frmPortfolioManager.setBounds(100, 100, 949, 616);
 		frmPortfolioManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPortfolioManager.getContentPane().setLayout(null);
-		Portfolio miPortfolio=new Portfolio();
+		Portfolio miPortfolio = new Portfolio();
 		miPortfolio.setCash(100000);
+		Bono bono = new Bono(1, 2, 3, 4, 5, 6, 7, "Hola", "HOLA", 5, 3);
+		Operation operacionDePrueba = new Operation(true, bono, new Date(), 4 );
+		miPortfolio.addOperation(operacionDePrueba);
 		
 		panelPortfolio = new JPanel();
 		panelPortfolio.setBounds(10, 138, 921, 437);
@@ -212,7 +204,25 @@ public class MainScreen {
 		
 		JTable tblHoldings = new JTable();
 		tblHoldings.setBounds(323, 33, 270, 392);
-		panelPortfolio.add(tblHoldings);
+		tblHoldings.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tblHoldings.setModel(new HoldingsTableModel(miPortfolio));
+		/*tblHoldings.setModel(new DefaultTableModel(
+				miPortfolio.toArray(), new String[] {"Ticker", "AssetAmount", "MoneyInvested"})
+				{
+			boolean[] columnEditables = new boolean[] {
+				true, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		*/
+		tblHoldings.getColumnModel().getColumn(0).setResizable(false);
+		tblHoldings.getColumnModel().getColumn(1).setResizable(false);
+		tblHoldings.getColumnModel().getColumn(2).setResizable(false);
+		JScrollPane holdingsScroll = new JScrollPane(tblHoldings);
+		holdingsScroll.setBounds(323, 33, 270, 392);
+		panelPortfolio.add(holdingsScroll);
 		
 		Label lblHoldings = new Label("Holdings");
 		lblHoldings.setBounds(323, 5, 270, 22);
@@ -489,7 +499,9 @@ public class MainScreen {
 		tblStocks.getColumnModel().getColumn(4).setPreferredWidth(145);
 		tblStocks.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		tblStocks.setBounds(10, 138, 921, 437);
-		frmPortfolioManager.getContentPane().add(tblStocks);
+		JScrollPane stocksScroll = new JScrollPane(tblStocks);
+		stocksScroll.setBounds(10, 138, 921, 437);
+		frmPortfolioManager.getContentPane().add(stocksScroll);
 		
 		panelConversor = new Panel();
 		panelConversor.setVisible(false);
