@@ -134,7 +134,8 @@ public class Portfolio {
 		calcNetWorth();
 		calcGains();
 		calcReturns();
-		/* writeOperationInHistoryFile(operation); este metodo no se usaria ya que cuando se crea la operation se guarda instantaneamente 
+		/* 
+		 * writeOperationInHistoryFile(operation); este metodo no se usaria ya que cuando se crea la operation se guarda instantaneamente 
 		 * en el archivo de historias. Para esto se tiene que validar antes de la creacion que la operation se realizable, es decir que si es 
 		 * de compra se tenga la $$ necesaria y si es de venta se tengan la cantidad de Assets disponibles para dicha venta.
 		 */
