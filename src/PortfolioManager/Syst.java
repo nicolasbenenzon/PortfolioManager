@@ -3,10 +3,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 /**
  * 
@@ -46,7 +45,6 @@ public class Syst {
 		Document doc = null;
 		boolean loaded = false;
 		List<Stock> mervalStocks = new ArrayList<Stock>();
-		Stock aux = new Stock(0, 0, 0, 0, 0, 0, 0, "Hola", "Chau");
 		try {
 			doc = Jsoup.connect("http://www.merval.sba.com.ar/Vistas/Cotizaciones/Acciones.aspx").get();
 			loaded = true;
@@ -67,9 +65,8 @@ public class Syst {
 				added++;
 			}
 			for(int i = 0; i < tickers.length; i++){
-				aux.ticker = tickers[i];
-				aux.value = Double.parseDouble(prices[i]);
-				mervalStocks.add(aux);
+				double auxDouble = Double.parseDouble(prices[i]);
+				mervalStocks.add(new Stock(auxDouble, i, i, i, i, i, i, tickers[i], tickers[i]));
 			}
 			return mervalStocks;
 		}
