@@ -1,5 +1,6 @@
 package PortfolioManager;
 
+@SuppressWarnings("serial")
 public class Bono extends Asset{
 	
 	double TIR;

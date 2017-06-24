@@ -1,6 +1,7 @@
 package PortfolioManager;
 
 /**
+ * Contains information about a specific asset owned by the user
  * 
  * @author Felipe Gorostiaga & Tomas Ferrer
  *

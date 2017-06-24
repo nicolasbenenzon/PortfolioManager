@@ -1,7 +1,10 @@
 package PortfolioManager;
 
-public class Asset {
+import java.io.Serializable;
 
+public class Asset implements Serializable{
+
+	private static final long serialVersionUID = -3130240257539577230L;
 	double value;
 	double min;
 	double max;

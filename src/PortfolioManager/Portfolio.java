@@ -92,8 +92,8 @@ public class Portfolio {
 	private void operate(Asset asset, int amount, double price) {
 		PurchaseInfo info;
 		if(!holdings.containsKey(asset)) {
-			if(amount <= 0)
-				throw new NegativeAssetAmountException();
+			/*if(amount <= 0) se verifica antes de entrar aca
+				throw new NegativeAssetAmountException();*/ 
 			holdings.put(asset, new PurchaseInfo(amount * price, amount));
 		}
 		else if(holdings.get(asset).getAssetAmount() + amount == 0) {
@@ -104,7 +104,7 @@ public class Portfolio {
 			info.setMoneyInvested(info.getMoneyInvested() + (amount * price));
 			info.setAssetAmount(info.getAssetAmount() + amount);
 		}
-		setCash(getCash() + amount * price);
+		setCash(getCash() - amount * price);
 	}
 	/**
 	 * Adds an operation to the current Portfolio. If the user already had acquired a certain amount of
@@ -142,5 +142,16 @@ public class Portfolio {
 		 * de compra se tenga la $$ necesaria y si es de venta se tengan la cantidad de Assets disponibles para dicha venta.
 		 */
 	}
-
+	
+	public Object[][] toArray() {
+		Object[][] tableData = new Object[getHoldings().keySet().size()][3];
+		int index = 0;
+		for(Asset asset : getHoldings().keySet()) {
+			tableData[index][0] = asset.getTicker();
+			tableData[index][1] = getHoldings().get(asset).getAssetAmount();
+			tableData[index][2] = "$" + getHoldings().get(asset).getMoneyInvested();
+			index++;
+		}
+		return tableData;
+	}
 }
