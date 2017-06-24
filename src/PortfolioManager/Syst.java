@@ -34,22 +34,19 @@ public class Syst {
 		this.opciones = opciones;
 	}
 
-	public static void UpdateValuesFromInternet(){
+	public static void updateValuesFromInternet(){
 		stocks = getStocksFromMerval();
 		commodities = new ArrayList<Commodity>();
 		futuros = new ArrayList<Futuro>();
 		bonos = new ArrayList<Bono>();
 		opciones = new ArrayList<Opcion>();
-		
-		
-		
 	}
 	
 	private static List<Stock> getStocksFromMerval(){
 		Document doc = null;
 		boolean loaded = false;
 		List<Stock> mervalStocks = new ArrayList<Stock>();
-		//Stock aux = new Stock();
+		Stock aux = new Stock(0, 0, 0, 0, 0, 0, 0, "Hola", "Chau");
 		try {
 			doc = Jsoup.connect("http://www.merval.sba.com.ar/Vistas/Cotizaciones/Acciones.aspx").get();
 			loaded = true;
@@ -70,16 +67,16 @@ public class Syst {
 				added++;
 			}
 			for(int i = 0; i < tickers.length; i++){
-				//aux.ticker = tickers[i];
-				//aux.value = Double.parseDouble(prices[i]);
-				//mervalStocks.add(aux);
+				aux.ticker = tickers[i];
+				aux.value = Double.parseDouble(prices[i]);
+				mervalStocks.add(aux);
 			}
 			return mervalStocks;
 		}
 		return null;
 	}
 	
-	public static void LoadNewsFromInternet(){
+	public static void loadNewsFromInternet(){
 		
 		Document doc = null;
 		boolean loaded = false;
@@ -102,11 +99,11 @@ public class Syst {
 		getStocksFromMerval();
 	}
 	
-	void GetBestCCL(){}
+	void getBestCCL(){}
 	
-	void GetBestInvertCCL(){}
+	void getBestInvertCCL(){}
 
-	public List<Stock> getStocks() {
+	public static List<Stock> getStocks() {
 		return stocks;
 	}
 

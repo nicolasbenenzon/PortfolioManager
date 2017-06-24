@@ -72,7 +72,7 @@ public class MainScreen {
 	 */
 	public MainScreen() {
 		initialize();
-		Syst.LoadNewsFromInternet();
+		Syst.loadNewsFromInternet();
 		
 	}
 	
@@ -485,14 +485,18 @@ public class MainScreen {
 	        	catch(NumberFormatException e) {
 	        		JOptionPane.showMessageDialog(new JFrame(), "Debe ingresar un número.", "Error", JOptionPane.ERROR_MESSAGE);
 	        	}
+	        	catch(InsufficientFundsException e) {
+	        		JOptionPane.showMessageDialog(new JFrame(), "Fondos insuficientes!", "Advertencia", JOptionPane.WARNING_MESSAGE);
+	        	}
 	        }
 	    });
 		tblStocks.setVisible(false);
-		List<Stock> miLista = new ArrayList<>();
-		Stock miStock = new Stock(5, 1, 4, 5, 4, 3, 6, "Jaja", "JAJAJ");
-		Stock miStock2 = new Stock(5, 1, 4, 5, 4, 3, 6, "Name", "Ticker");
-		miLista.add(miStock);
-		miLista.add(miStock2);
+		Syst.updateValuesFromInternet();
+		List<Stock> miLista = Syst.getStocks();
+		//Stock miStock = new Stock(5, 1, 4, 5, 4, 3, 6, "Jaja", "JAJAJ");
+		//Stock miStock2 = new Stock(5, 1, 4, 5, 4, 3, 6, "Name", "Ticker");
+		//miLista.add(miStock);
+		//miLista.add(miStock2);
 		tblStocks.setModel(new StocksTableModel(miLista));
 		/*
 		tblStocks.setModel(new DefaultTableModel(

@@ -21,6 +21,14 @@ public class StocksTableModel extends AbstractTableModel {
 	public int getColumnCount() {
 		return 2;
 	}
+	
+	@Override
+	public String getColumnName(int column) {
+		if(column == 0)
+			return "Ticker";
+		else
+			return "Price";
+	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {

@@ -21,7 +21,6 @@ public class HoldingsTableModel extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		System.out.println(myPortfolio.getHoldings().keySet().size());
 		return myPortfolio.getHoldings().keySet().size();
 	}
 
