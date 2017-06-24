@@ -8,10 +8,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 /**
- * 
- */
-
-/**
  * @author Nicolas Benenzon
  *
  */
