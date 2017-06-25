@@ -292,9 +292,9 @@ public class MainScreen {
 	        	DefaultTableModel modelHistory = new DefaultTableModel(col, 0);
 
 	        	
-	        	for(Operation o: Operation.readFromFile()){
+	        	for(Operation o: miPortfolio.getHistory()){
 	        		
-	        		String data[]={o.getAsset().getName(), o.getDate().toString(),  Integer.toString(o.getAsset().getAmount()),"$" + Double.toString(o.getPurchaseAmount()),"  " + (o.isBuyingOperation()?"Compra":"Venta")};
+	        		String data[]={o.getAsset().getName(), o.getDate().toString(),  Integer.toString(o.getPurchaseAmount()),"$" + Double.toString(o.getPurchaseValue()*o.getPurchaseAmount()),"  " + (o.isBuyingOperation()?"Compra":"Venta")};
         		
 	        		modelHistory.addRow(data);
 
@@ -549,10 +549,7 @@ public class MainScreen {
 	        	}
 	        }
 	    });
-		/*NUEVO*/
 
-		
-		/*FIN NUEVO*/
 		tblStocks.setVisible(false);
 		Syst.updateValuesFromInternet();
 		List<Stock> miLista = Syst.getStocks();

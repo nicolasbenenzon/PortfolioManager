@@ -51,7 +51,6 @@ public class Operation implements Serializable{
 		this.date = date;
 		this.asset = asset;
 		
-		writeOperationInHistoryFile(this);
 		
 	}
 	

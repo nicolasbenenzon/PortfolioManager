@@ -181,7 +181,7 @@ public class Portfolio {
 	
 	public List<Operation> readOperationListFromFile(){
 		
-		List<Operation> operationList=null:
+		List<Operation> operationList=null;
 		String fileName = "ListHistory.ser";
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
