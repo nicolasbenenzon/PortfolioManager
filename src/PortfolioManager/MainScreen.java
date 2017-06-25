@@ -133,10 +133,6 @@ public class MainScreen {
 		frmPortfolioManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPortfolioManager.getContentPane().setLayout(null);
 		Portfolio miPortfolio = new Portfolio();
-		miPortfolio.setCash(100000);
-		Bono bono = new Bono(1, 2, 3, 4, 5, 6, 7, "Hola", "HOLA", 5, 3);
-		Operation operacionDePrueba = new Operation(true, bono, new Date(), 4 );
-		miPortfolio.addOperation(operacionDePrueba);
 		
 		panelPortfolio = new JPanel();
 		panelPortfolio.setBounds(10, 138, 921, 437);
@@ -222,17 +218,6 @@ public class MainScreen {
 		tblHoldings.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		HoldingsTableModel holdingsTableModel = new HoldingsTableModel(miPortfolio);
 		tblHoldings.setModel(holdingsTableModel);
-		/*tblHoldings.setModel(new DefaultTableModel(
-				miPortfolio.toArray(), new String[] {"Ticker", "AssetAmount", "MoneyInvested"})
-				{
-			boolean[] columnEditables = new boolean[] {
-				true, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		*/
 		tblHoldings.getColumnModel().getColumn(0).setResizable(false);
 		tblHoldings.getColumnModel().getColumn(1).setResizable(false);
 		tblHoldings.getColumnModel().getColumn(2).setResizable(false);
@@ -487,53 +472,8 @@ public class MainScreen {
 	        			miPortfolio.addOperation(op);
 	        			holdingsTableModel.addRow(0, 0);
 	        			/*Actualiza los numeros de la pantalla principal*/
-	        			panelPortfolio.remove(lblNotInvested_V);	        			
-	        			lblNotInvested_V = new JLabel("$"+ miPortfolio.getCash());
-	        			lblNotInvested_V.setBounds(193, 283, 123, 29);
-	        			panelPortfolio.add(lblNotInvested_V);
-	        			lblNotInvested_V.setForeground(new Color(0, 128, 0));
-	        			lblNotInvested_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
-	        			lblNotInvested_V.setVisible(true);
-	        			panelPortfolio.remove(lblInvested_V );
-	        			lblInvested_V = new JLabel("$"+miPortfolio.getAllAcquiredValues());
-	        			lblInvested_V.setBounds(193, 243, 123, 29);
-	        			panelPortfolio.add(lblInvested_V);
-	        			lblInvested_V.setForeground(new Color(0, 128, 0));
-	        			lblInvested_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
-	        			panelPortfolio.remove(lblOverallReturns_V);
-	        			if(miPortfolio.getOverallReturns()==0.0){
-	        				lblOverallReturns_V = new JLabel(miPortfolio.getOverallReturns()+"%");		
-	        			}else{
-	        				lblOverallReturns_V = new JLabel("--");	
-	        			}
-	        			lblOverallReturns_V.setBounds(193, 203, 123, 29);
-	        			panelPortfolio.add(lblOverallReturns_V);
-	        			if(miPortfolio.getOverallReturns()<0){
-	        				lblOverallReturns_V.setForeground(new Color(255, 0, 0));
-	        			}else{
-	        				lblOverallReturns_V.setForeground(new Color(0, 128, 0));
-	        			}	
-	        			lblOverallReturns_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
-	        			panelPortfolio.remove(lblOverallGains_V);
-	        			lblOverallGains_V = new JLabel("$"+miPortfolio.getOverallGains());
-	        			lblOverallGains_V.setBounds(193, 159, 123, 29);
-	        			panelPortfolio.add(lblOverallGains_V);
-	        			if(miPortfolio.getOverallGains()<0){
-	        				lblOverallGains_V.setForeground(new Color(255, 0, 0));
-	        			}else{
-	        				lblOverallGains_V.setForeground(new Color(0, 128, 0));
-	        			}		
-	        			lblOverallGains_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
-	        			panelPortfolio.remove(lblNetWorth_V);
-	        			lblNetWorth_V = new JLabel("$" +miPortfolio.getNetWorth());
-	        			lblNetWorth_V.setBounds(193, 120, 123, 29);
-	        			panelPortfolio.add(lblNetWorth_V);
-	        			if(miPortfolio.getNetWorth()<0){
-	        				lblNetWorth_V.setForeground(new Color(255, 0, 0));
-	        			}else{
-	        				lblNetWorth_V.setForeground(new Color(0, 128, 0));
-	        			}      			
-	        			lblNetWorth_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
+	        			refreshLabels(miPortfolio);
+	        			
 	        			
 	        		}
 	        		catch(NegativeAssetAmountException e) {
@@ -554,52 +494,6 @@ public class MainScreen {
 		Syst.updateValuesFromInternet();
 		List<Stock> miLista = Syst.getStocks();
 		tblStocks.setModel(new StocksTableModel(miLista));
-		/*
-		tblStocks.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"AGRO", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"ALUA", "10,950", "-1,35%", "1.915.382", "175.341"},
-				{"APBR", "42,000", "-1,92%", "2.575.038", "60.728"},
-				{"AUSO", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"BMA", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"CECO2", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"CELU", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"CEPU", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"COME", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"CRES", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"CTIO", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"EDN", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"ERAR", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"FRAN", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"GGAL", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"JMIN", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"MIRG", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"PAMP", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"PESA", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"PETR", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"SAMI", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"TECO2", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"TGNO4", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"TGSU2", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"TRAN", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"TS", "42,000", "-0,59%", "2.575.038", "60.728"},
-				{"YPFD", "42,000", "-0,59%", "2.575.038", "60.728"},
-
-				 
-
-			},
-			new String[] {
-				"Ticker", "Cotizaci\u00F3n", "Variaci\u00F3n", "Volumen Efectivo", "Volumen Nominal"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				true, false, false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		*/
 		tblStocks.getColumnModel().getColumn(0).setResizable(false);
 		tblStocks.getColumnModel().getColumn(1).setResizable(false);
 		tblStocks.getColumnModel().getColumn(1).setPreferredWidth(101);
@@ -657,5 +551,62 @@ public class MainScreen {
 		lblNews2.setText("<html>" + news2 + "</html>");
 		lblNews3.setText("<html>" + news3 + "</html>");
 		lblNews4.setText("<html>" + news4 + "</html>");
+	}
+	
+	public void refreshLabels(Portfolio miPortfolio){
+		
+		panelPortfolio.remove(lblNotInvested_V);	        			
+		lblNotInvested_V = new JLabel("$"+ miPortfolio.getCash());
+		lblNotInvested_V.setBounds(193, 283, 123, 29);
+		panelPortfolio.add(lblNotInvested_V);
+		lblNotInvested_V.setForeground(new Color(0, 128, 0));
+		lblNotInvested_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblNotInvested_V.setVisible(true);
+		
+		panelPortfolio.remove(lblInvested_V );
+		lblInvested_V = new JLabel("$"+miPortfolio.getAllAcquiredValues());
+		lblInvested_V.setBounds(193, 243, 123, 29);
+		panelPortfolio.add(lblInvested_V);
+		lblInvested_V.setForeground(new Color(0, 128, 0));
+		lblInvested_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		
+		panelPortfolio.remove(lblOverallReturns_V);
+		if(miPortfolio.getOverallReturns()==0.0) {
+			lblOverallReturns_V = new JLabel(miPortfolio.getOverallReturns()+"%");		
+		}else {
+			lblOverallReturns_V = new JLabel("--");	
+		}
+		lblOverallReturns_V.setBounds(193, 203, 123, 29);
+		panelPortfolio.add(lblOverallReturns_V);
+		if(miPortfolio.getOverallReturns()<0) {
+			lblOverallReturns_V.setForeground(new Color(255, 0, 0));
+		}else {
+			lblOverallReturns_V.setForeground(new Color(0, 128, 0));
+		}	
+		lblOverallReturns_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		
+		panelPortfolio.remove(lblOverallGains_V);
+		lblOverallGains_V = new JLabel("$"+miPortfolio.getOverallGains());
+		lblOverallGains_V.setBounds(193, 159, 123, 29);
+		panelPortfolio.add(lblOverallGains_V);
+		
+		if(miPortfolio.getOverallGains()<0) {
+			lblOverallGains_V.setForeground(new Color(255, 0, 0));
+		}else {
+			lblOverallGains_V.setForeground(new Color(0, 128, 0));
+		}		
+		lblOverallGains_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		
+		panelPortfolio.remove(lblNetWorth_V);
+		lblNetWorth_V = new JLabel("$" +miPortfolio.getNetWorth());
+		lblNetWorth_V.setBounds(193, 120, 123, 29);
+		panelPortfolio.add(lblNetWorth_V);
+		
+		if(miPortfolio.getNetWorth()<0) {
+			lblNetWorth_V.setForeground(new Color(255, 0, 0));
+		}else {
+			lblNetWorth_V.setForeground(new Color(0, 128, 0));
+		}      			
+		lblNetWorth_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
 	}
 }
