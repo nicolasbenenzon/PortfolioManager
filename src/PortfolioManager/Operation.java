@@ -78,8 +78,8 @@ public class Operation implements Serializable{
 	public void operate(Operation op){
 		
 	}
-	
-	void writeOperationInHistoryFile(Operation operation){	//o es un método static, o es de instancia y no recibe parametros
+	/*
+	void writeOperationInHistoryFile(Operation operation){	//o es un mï¿½todo static, o es de instancia y no recibe parametros
 		
 		String fileName = "operationHistory.ser";
 		FileOutputStream fos = null;
@@ -96,13 +96,13 @@ public class Operation implements Serializable{
 			e.printStackTrace();
 		}		
 	}
-	/*Hay lo que decia santi
+	 *Hay lo que decia santi
 	 *  de manejar el flujo con 
 	 *  try-catch pero es la unica
 	 *   manera que encontre
 	 *   
 	 *   Esto esta bien en archivos, no queda otra (me parece?)
-	*/
+	
 	public static Collection<Operation> readFromFile() {  
 		List<Operation> operationList = new ArrayList<Operation>();
 		String fileName = "operationHistory.ser";
@@ -132,6 +132,7 @@ public class Operation implements Serializable{
 	    }
 		 return operationList;
 	}
+	*/
 
 	public boolean isBuyingOperation() {
 		return isBuyingOperation;

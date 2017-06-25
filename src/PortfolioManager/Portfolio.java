@@ -1,5 +1,13 @@
 package PortfolioManager;
 
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -152,5 +160,49 @@ public class Portfolio {
 		}
 		return tableData;
 	}
+	
+	public void writeOperationListInFile(){
+		
+		String fileName = "ListHistory.ser";
+		FileOutputStream fos = null;
+		ObjectOutputStream oos = null;
+	
+		try {
+			fos = new FileOutputStream(fileName);
+			oos = new ObjectOutputStream(fos);
+			oos.writeObject(this.getHistory());
+			oos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	public List<Operation> readOperationListFromFile(){
+		
+		List<Operation> operationList=null:
+		String fileName = "ListHistory.ser";
+		FileInputStream fis = null;
+		ObjectInputStream ois = null;
+		
+		try {
+			
+			fis = new FileInputStream(fileName);  
+			ois = new ObjectInputStream(fis); 
+			operationList = (List<Operation>) ois.readObject();
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (EOFException e) {
+	    	  e.printStackTrace();
+	    } catch (IOException io) {
+	    	  io.printStackTrace();
+	    }
+		
+		return operationList;
+
+	}
+	
 }
 
