@@ -472,25 +472,26 @@ public class MainScreen {
 
 		tblStocks.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {	        	
-	        	String cant = JOptionPane.showInputDialog("Ingrese la cantidad a comprar");
+	        	String input = JOptionPane.showInputDialog("Ingrese la cantidad a comprar");
 	        	int index = tblStocks.getSelectedRow();
 	        	Stock currentAsset = (Stock) tblStocks.getValueAt(index, 0);
-	        	int cantidad;
-	        	try {
-	        		cantidad = Integer.parseInt(cant);
-	        		Operation op = new Operation(true, currentAsset, new Date(), cantidad);
-		        	miPortfolio.addOperation(op);
-		    		holdingsTableModel.addRow(0, 0);
-	        	}
-	        	catch(NegativeAssetAmountException e) {
-	        		JOptionPane.showMessageDialog(new JFrame(), "No puede comprar una cantidad negativa/nula"
-	        				+ " de activos.", "Error", JOptionPane.ERROR_MESSAGE);
-	        	}
-	        	catch(NumberFormatException e) {
-	        		JOptionPane.showMessageDialog(new JFrame(), "Debe ingresar un número.", "Error", JOptionPane.ERROR_MESSAGE);
-	        	}
-	        	catch(InsufficientFundsException e) {
-	        		JOptionPane.showMessageDialog(new JFrame(), "Fondos insuficientes!", "Advertencia", JOptionPane.WARNING_MESSAGE);
+	        	if(input != null) {
+	        		try {
+	        			int cantidad = Integer.parseInt(input);
+	        			Operation op = new Operation(true, currentAsset, new Date(), cantidad);
+	        			miPortfolio.addOperation(op);
+	        			holdingsTableModel.addRow(0, 0);
+	        		}
+	        		catch(NegativeAssetAmountException e) {
+	        			JOptionPane.showMessageDialog(new JFrame(), "No puede comprar una cantidad negativa/nula"
+	        					+ " de activos.", "Error", JOptionPane.ERROR_MESSAGE);
+	        		}
+	        		catch(NumberFormatException e) {
+	        			JOptionPane.showMessageDialog(new JFrame(), "Debe ingresar un número.", "Error", JOptionPane.ERROR_MESSAGE);
+	        		}
+	        		catch(InsufficientFundsException e) {
+	        			JOptionPane.showMessageDialog(new JFrame(), "¡Fondos insuficientes!", "Advertencia", JOptionPane.WARNING_MESSAGE);
+	        		}
 	        	}
 	        }
 	    });
