@@ -50,6 +50,11 @@ public class MainScreen {
 	private static JLabel lblNews3;
 	private static JLabel lblNews2;
 	private static JLabel lblNews1;
+	private JLabel lblNotInvested_V;
+	private JLabel lblInvested_V; 
+	private JLabel lblOverallReturns_V;
+	private JLabel lblOverallGains_V; 
+	private JLabel lblNetWorth_V; 
 
 	/**
 	 * Launch the application.
@@ -143,7 +148,7 @@ public class MainScreen {
 		panelPortfolio.add(lblNetWorth);
 		lblNetWorth.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
-		JLabel lblNetWorth_V = new JLabel("$" +miPortfolio.getNetWorth());
+		lblNetWorth_V = new JLabel("$" +miPortfolio.getNetWorth());
 		lblNetWorth_V.setBounds(193, 120, 123, 29);
 		panelPortfolio.add(lblNetWorth_V);
 		if(miPortfolio.getNetWorth()<0){
@@ -154,7 +159,7 @@ public class MainScreen {
 		
 		lblNetWorth_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
-		JLabel lblOverallGains_V = new JLabel("$"+miPortfolio.getOverallGains());
+		lblOverallGains_V = new JLabel("$"+miPortfolio.getOverallGains());
 		lblOverallGains_V.setBounds(193, 159, 123, 29);
 		panelPortfolio.add(lblOverallGains_V);
 		if(miPortfolio.getOverallGains()<0){
@@ -174,7 +179,7 @@ public class MainScreen {
 		panelPortfolio.add(lblOverallReturns);
 		lblOverallReturns.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
-		JLabel lblOverallReturns_V;
+
 		if(miPortfolio.getOverallReturns()==0.0){
 			lblOverallReturns_V = new JLabel(miPortfolio.getOverallReturns()+"%");		
 		}else{
@@ -190,7 +195,7 @@ public class MainScreen {
 		
 		lblOverallReturns_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
-		JLabel lblInvested_V = new JLabel("$"+miPortfolio.getAllAcquiredValues());
+		lblInvested_V = new JLabel("$"+miPortfolio.getAllAcquiredValues());
 		lblInvested_V.setBounds(193, 243, 123, 29);
 		panelPortfolio.add(lblInvested_V);
 		lblInvested_V.setForeground(new Color(0, 128, 0));
@@ -206,7 +211,7 @@ public class MainScreen {
 		panelPortfolio.add(lblNotInvested);
 		lblNotInvested.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
-		JLabel lblNotInvested_V = new JLabel("$"+ miPortfolio.getCash());
+		lblNotInvested_V = new JLabel("$"+ miPortfolio.getCash());
 		lblNotInvested_V.setBounds(193, 283, 123, 29);
 		panelPortfolio.add(lblNotInvested_V);
 		lblNotInvested_V.setForeground(new Color(0, 128, 0));
@@ -481,6 +486,55 @@ public class MainScreen {
 	        			Operation op = new Operation(true, currentAsset, new Date(), cantidad);
 	        			miPortfolio.addOperation(op);
 	        			holdingsTableModel.addRow(0, 0);
+	        			/*Actualiza los numeros de la pantalla principal*/
+	        			panelPortfolio.remove(lblNotInvested_V);	        			
+	        			lblNotInvested_V = new JLabel("$"+ miPortfolio.getCash());
+	        			lblNotInvested_V.setBounds(193, 283, 123, 29);
+	        			panelPortfolio.add(lblNotInvested_V);
+	        			lblNotInvested_V.setForeground(new Color(0, 128, 0));
+	        			lblNotInvested_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
+	        			lblNotInvested_V.setVisible(true);
+	        			panelPortfolio.remove(lblInvested_V );
+	        			lblInvested_V = new JLabel("$"+miPortfolio.getAllAcquiredValues());
+	        			lblInvested_V.setBounds(193, 243, 123, 29);
+	        			panelPortfolio.add(lblInvested_V);
+	        			lblInvested_V.setForeground(new Color(0, 128, 0));
+	        			lblInvested_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
+	        			panelPortfolio.remove(lblOverallReturns_V);
+	        			if(miPortfolio.getOverallReturns()==0.0){
+	        				lblOverallReturns_V = new JLabel(miPortfolio.getOverallReturns()+"%");		
+	        			}else{
+	        				lblOverallReturns_V = new JLabel("--");	
+	        			}
+	        			lblOverallReturns_V.setBounds(193, 203, 123, 29);
+	        			panelPortfolio.add(lblOverallReturns_V);
+	        			if(miPortfolio.getOverallReturns()<0){
+	        				lblOverallReturns_V.setForeground(new Color(255, 0, 0));
+	        			}else{
+	        				lblOverallReturns_V.setForeground(new Color(0, 128, 0));
+	        			}	
+	        			lblOverallReturns_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
+	        			panelPortfolio.remove(lblOverallGains_V);
+	        			lblOverallGains_V = new JLabel("$"+miPortfolio.getOverallGains());
+	        			lblOverallGains_V.setBounds(193, 159, 123, 29);
+	        			panelPortfolio.add(lblOverallGains_V);
+	        			if(miPortfolio.getOverallGains()<0){
+	        				lblOverallGains_V.setForeground(new Color(255, 0, 0));
+	        			}else{
+	        				lblOverallGains_V.setForeground(new Color(0, 128, 0));
+	        			}		
+	        			lblOverallGains_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
+	        			panelPortfolio.remove(lblNetWorth_V);
+	        			lblNetWorth_V = new JLabel("$" +miPortfolio.getNetWorth());
+	        			lblNetWorth_V.setBounds(193, 120, 123, 29);
+	        			panelPortfolio.add(lblNetWorth_V);
+	        			if(miPortfolio.getNetWorth()<0){
+	        				lblNetWorth_V.setForeground(new Color(255, 0, 0));
+	        			}else{
+	        				lblNetWorth_V.setForeground(new Color(0, 128, 0));
+	        			}      			
+	        			lblNetWorth_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
+	        			
 	        		}
 	        		catch(NegativeAssetAmountException e) {
 	        			JOptionPane.showMessageDialog(new JFrame(), "No puede comprar una cantidad negativa/nula"
@@ -495,6 +549,10 @@ public class MainScreen {
 	        	}
 	        }
 	    });
+		/*NUEVO*/
+
+		
+		/*FIN NUEVO*/
 		tblStocks.setVisible(false);
 		Syst.updateValuesFromInternet();
 		List<Stock> miLista = Syst.getStocks();
