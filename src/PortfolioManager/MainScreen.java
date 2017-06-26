@@ -133,6 +133,7 @@ public class MainScreen {
 		frmPortfolioManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPortfolioManager.getContentPane().setLayout(null);
 		Portfolio miPortfolio = new Portfolio();
+		miPortfolio.setCash(100000);
 		
 		panelPortfolio = new JPanel();
 		panelPortfolio.setBounds(10, 138, 921, 437);
