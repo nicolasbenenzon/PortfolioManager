@@ -4,18 +4,21 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Label;
 import java.awt.Panel;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.DefaultListSelectionModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,7 +42,9 @@ public class MainScreen {
 	private JPanel panelMenu;
 	private JPanel panelPortfolio;
 	private JLabel lblMarketInfo;
+	private JTable tblHoldings;
 	private JTable tblStocks;
+	private JScrollPane holdingsScroll;
 	private JScrollPane stocksScroll;
 	private JScrollPane historyScroll;
 	private JSpinner spDolarOficial;
@@ -54,7 +59,7 @@ public class MainScreen {
 	private JLabel lblInvested_V; 
 	private JLabel lblOverallReturns_V;
 	private JLabel lblOverallGains_V; 
-	private JLabel lblNetWorth_V; 
+	private JLabel lblNetWorth_V;
 
 	/**
 	 * Launch the application.
@@ -83,6 +88,7 @@ public class MainScreen {
 	
 	private void ClearScreen(){
 		panelPortfolio.setVisible(false);
+		holdingsScroll.setVisible(false);
 		stocksScroll.setVisible(false);
 		panelConversor.setVisible(false);
 	}
@@ -92,6 +98,7 @@ public class MainScreen {
 		lblTitle.setText(module);
 		if(module == "PORTFOLIO"){
 			panelPortfolio.setVisible(true);
+			holdingsScroll.setVisible(true);
 		}
 		else if(module == "ACCIONES"){
 			tblStocks.setVisible(true);
@@ -127,11 +134,17 @@ public class MainScreen {
 	 */
 	private void initialize() {
 		frmPortfolioManager = new JFrame();
+		Toolkit myScreen = Toolkit.getDefaultToolkit();
+		Image myIcon = myScreen.getImage("logo.jpg");
+		frmPortfolioManager.setIconImage(myIcon);
 		frmPortfolioManager.setResizable(false);
 		frmPortfolioManager.setTitle("Portfolio Manager");
 		frmPortfolioManager.setBounds(100, 100, 949, 616);
 		frmPortfolioManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmPortfolioManager.getContentPane().setLayout(null);
+
+
+
 		Portfolio miPortfolio = new Portfolio();
 		miPortfolio.setCash(100000);
 		
@@ -214,15 +227,27 @@ public class MainScreen {
 		lblNotInvested_V.setForeground(new Color(0, 128, 0));
 		lblNotInvested_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
-		JTable tblHoldings = new JTable();
+		tblHoldings = new JTable();
 		tblHoldings.setBounds(323, 33, 270, 392);
 		tblHoldings.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		HoldingsTableModel holdingsTableModel = new HoldingsTableModel(miPortfolio);
 		tblHoldings.setModel(holdingsTableModel);
+		tblHoldings.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	        	if(event.getValueIsAdjusting() || ((DefaultListSelectionModel)event.getSource()).isSelectionEmpty())
+	        		return;
+	        	//System.out.println((DefaultListSelectionModel)event.getSource());
+	        	String input = JOptionPane.showInputDialog("Ingrese la cantidad a vender");
+	        	int index = tblHoldings.getSelectedRow();
+	        	Asset currentAsset = (Asset) tblHoldings.getValueAt(index, 0);
+	        	boolean isBuyingOperation = false;
+	        	processOperation(miPortfolio, holdingsTableModel, isBuyingOperation, currentAsset, input);
+	        }
+	    });
 		tblHoldings.getColumnModel().getColumn(0).setResizable(false);
 		tblHoldings.getColumnModel().getColumn(1).setResizable(false);
 		tblHoldings.getColumnModel().getColumn(2).setResizable(false);
-		JScrollPane holdingsScroll = new JScrollPane(tblHoldings);
+		holdingsScroll = new JScrollPane(tblHoldings);
 		holdingsScroll.setBounds(323, 33, 270, 392);
 		panelPortfolio.add(holdingsScroll);
 		
@@ -269,6 +294,9 @@ public class MainScreen {
 				/*Clickeo el boton*/
 				
 				JFrame window = new JFrame();
+				Toolkit myScreen2 = Toolkit.getDefaultToolkit();
+				Image myIcon2 = myScreen2.getImage("logo.jpg");
+				window.setIconImage(myIcon);
 	        	window.setResizable(false);
 	        	window.setTitle("Historial de Operaciones");
 	        	window.setBounds(100, 100, 800, 600);
@@ -466,29 +494,9 @@ public class MainScreen {
 	        	String input = JOptionPane.showInputDialog("Ingrese la cantidad a comprar");
 	        	int index = tblStocks.getSelectedRow();
 	        	Stock currentAsset = (Stock) tblStocks.getValueAt(index, 0);
-	        	if(input != null) {
-	        		try {
-	        			int cantidad = Integer.parseInt(input);
-	        			Operation op = new Operation(true, currentAsset, new Date(), cantidad);
-	        			miPortfolio.addOperation(op);
-	        			holdingsTableModel.addRow(0, 0);
-	        			/*Actualiza los numeros de la pantalla principal*/
-	        			refreshLabels(miPortfolio);
-	        			
-	        			
-	        		}
-	        		catch(NegativeAssetAmountException e) {
-	        			JOptionPane.showMessageDialog(new JFrame(), "No puede comprar una cantidad negativa/nula"
-	        					+ " de activos.", "Error", JOptionPane.ERROR_MESSAGE);
-	        		}
-	        		catch(NumberFormatException e) {
-	        			JOptionPane.showMessageDialog(new JFrame(), "Debe ingresar un número.", "Error", JOptionPane.ERROR_MESSAGE);
-	        		}
-	        		catch(InsufficientFundsException e) {
-	        			JOptionPane.showMessageDialog(new JFrame(), "¡Fondos insuficientes!", "Advertencia", JOptionPane.WARNING_MESSAGE);
-	        		}
+	        	boolean isBuyingOperation = true;
+	        	processOperation(miPortfolio, holdingsTableModel, isBuyingOperation, currentAsset, input);
 	        	}
-	        }
 	    });
 
 		tblStocks.setVisible(false);
@@ -527,7 +535,7 @@ public class MainScreen {
 		panelConversor.add(lblDlarBlue);
 		
 		spDolarOficial = new JSpinner();
-		spDolarOficial.addChangeListener(new ChangeListener() {
+		spDolarOficial.addChangeListener(new ChangeListener(){
 			public void stateChanged(ChangeEvent arg0) {
 				spDolarBlue.setValue(spDolarOficial.getValue());
 			}
@@ -554,7 +562,7 @@ public class MainScreen {
 		lblNews4.setText("<html>" + news4 + "</html>");
 	}
 	
-	public void refreshLabels(Portfolio miPortfolio){
+	private void refreshLabels(Portfolio miPortfolio){
 		
 		panelPortfolio.remove(lblNotInvested_V);	        			
 		lblNotInvested_V = new JLabel("$"+ miPortfolio.getCash());
@@ -609,5 +617,37 @@ public class MainScreen {
 			lblNetWorth_V.setForeground(new Color(0, 128, 0));
 		}      			
 		lblNetWorth_V.setFont(new Font("Tahoma", Font.PLAIN, 24));
+	}
+	
+	private void processOperation(Portfolio miPortfolio, HoldingsTableModel holdingsTableModel, boolean isBuyingOperation, Asset currentAsset, String input) {
+		if(input != null) {
+    		try {
+    			int cantidad = Integer.parseInt(input);
+    			Operation op = new Operation(isBuyingOperation, currentAsset, new Date(), cantidad);
+    			miPortfolio.addOperation(op);
+    			if(isBuyingOperation) {
+    				holdingsTableModel.addRow(0, 0);
+    			}
+    			else {
+    				holdingsTableModel.updateRow(0, 0);
+    			}
+    			/*Actualiza los numeros de la pantalla principal*/
+    			refreshLabels(miPortfolio);
+    			tblHoldings.clearSelection();
+    			
+    			
+    		}
+    		catch(NegativeAssetAmountException e) {
+    			JOptionPane.showMessageDialog(new JFrame(), 
+    					(isBuyingOperation) ? ("No puede comprar una cantidad negativa/nula"
+    					+ " de activos.") : ("No posee tantos activos"), "Error", JOptionPane.ERROR_MESSAGE);
+    		}
+    		catch(NumberFormatException e) {
+    			JOptionPane.showMessageDialog(new JFrame(), "Debe ingresar un número.", "Error", JOptionPane.ERROR_MESSAGE);
+    		}
+    		catch(InsufficientFundsException e) {
+    			JOptionPane.showMessageDialog(new JFrame(), "¡Fondos insuficientes!", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    		}
+		}
 	}
 }

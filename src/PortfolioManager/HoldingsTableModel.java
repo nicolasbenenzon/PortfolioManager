@@ -42,6 +42,12 @@ public class HoldingsTableModel extends AbstractTableModel {
 	public void addRow(int firstRow, int lastRow) {
         this.fireTableRowsInserted(firstRow, lastRow);
     }
+	
+	public void updateRow(int firstRow, int lastRow) {
+		this.fireTableRowsUpdated(firstRow, lastRow);
+		
+	}
+	
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Asset assetRequested = null;
@@ -53,7 +59,7 @@ public class HoldingsTableModel extends AbstractTableModel {
 			rowIndex--;
 		}
 		if(columnIndex == 0) {
-			return (Object) assetRequested.getTicker();
+			return (Object) assetRequested;
 		}
 		else if(columnIndex == 1) {
 			return (Object) myPortfolio.getHoldings().get(assetRequested).getAssetAmount();		
@@ -62,5 +68,7 @@ public class HoldingsTableModel extends AbstractTableModel {
 			return (Object) ("$" + myPortfolio.getHoldings().get(assetRequested).getMoneyInvested());
 		}
 	}
+
+	
 
 }
