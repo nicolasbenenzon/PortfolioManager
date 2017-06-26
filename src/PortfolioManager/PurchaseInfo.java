@@ -1,12 +1,14 @@
 package PortfolioManager;
 
+import java.io.Serializable;
+
 /**
  * Contains information about a specific asset owned by the user
  * 
  * @author Felipe Gorostiaga & Tomas Ferrer
  *
  */
-public class PurchaseInfo {
+public class PurchaseInfo implements Serializable{
 	/**
 	 * Total current amount of money invested in a specific asset
 	 */

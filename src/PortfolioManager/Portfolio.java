@@ -4,13 +4,16 @@ import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 /**
@@ -20,10 +23,9 @@ import java.util.Map;
  * @author Tomas Ferrer & Felipe Gorostiaga
  *
  */
-public class Portfolio {
+public class Portfolio implements Serializable{
 	
 	private Map<Asset, PurchaseInfo> holdings;
-	private List<Operation> history;
 	private double netWorth;
 	private double overallGains;
 	private double overallReturns;
@@ -31,16 +33,11 @@ public class Portfolio {
 	
 	public Portfolio() {
 		holdings = new HashMap<>();
-		history = new LinkedList<>();
 		netWorth = overallGains = overallReturns = 0;
 	}
 
 	public Map<Asset, PurchaseInfo> getHoldings() {
 		return Collections.unmodifiableMap(holdings);
-	}
-
-	public List<Operation> getHistory() { 
-		return Collections.unmodifiableList(history);
 	}
 	
 	public double getCash() {
@@ -139,7 +136,9 @@ public class Portfolio {
 				operate(operation.getAsset(), -1 * operation.getPurchaseAmount(), operation.getPurchaseValue());
 				
 		}
-		history.add(operation);
+		writeOperationInFile(operation);
+		Operation.setOperationNumber(Operation.getOperationNumber()+1);
+		savePortfolioInFile();
 		calcNetWorth();
 		calcGains();
 		calcReturns();
@@ -150,37 +149,28 @@ public class Portfolio {
 		 */
 	}
 	
-	public Object[][] toArray() {
-		Object[][] tableData = new Object[getHoldings().keySet().size()][3];
-		int index = 0;
-		for(Asset asset : getHoldings().keySet()) {
-			tableData[index][0] = asset.getTicker();
-			tableData[index][1] = getHoldings().get(asset).getAssetAmount();
-			tableData[index][2] = "$" + getHoldings().get(asset).getMoneyInvested();
-			index++;
-		}
-		return tableData;
-	}
 	
-	public void writeOperationListInFile(){
+	public void writeOperationInFile(Operation operation) {
 		
-		String fileName = "ListHistory.ser";
-		FileOutputStream fos = null;
-		ObjectOutputStream oos = null;
-	
-		try {
-			fos = new FileOutputStream(fileName);
-			oos = new ObjectOutputStream(fos);
-			oos.writeObject(this.getHistory());
-			oos.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch(IOException e) {
-			e.printStackTrace();
-		}		
+		List<Operation> operationList = new ArrayList<Operation>();
+		
+		if(Operation.getOperationNumber() == 0) {
+			operationList.add(operation);	
+			writeFile(operationList);
+		}
+		else {
+			List<Operation> aux = readOperationListFromFile();
+			for(Operation op : aux)
+				System.out.println(op);
+			aux.add(operation);
+			operationList.addAll(aux);
+			writeFile(operationList);
+			
+			
+		}
 	}
 	
-	public List<Operation> readOperationListFromFile(){
+	public List<Operation> readOperationListFromFile() {
 		
 		List<Operation> operationList=null;
 		String fileName = "ListHistory.ser";
@@ -188,7 +178,6 @@ public class Portfolio {
 		ObjectInputStream ois = null;
 		
 		try {
-			
 			fis = new FileInputStream(fileName);  
 			ois = new ObjectInputStream(fis); 
 			operationList = (List<Operation>) ois.readObject();
@@ -200,9 +189,56 @@ public class Portfolio {
 	    } catch (IOException io) {
 	    	  io.printStackTrace();
 	    }
-		
 		return operationList;
-
+	}
+	
+	private void writeFile(List<Operation> list) {
+		
+		FileOutputStream fos = null;
+		ObjectOutputStream oos = null;
+	
+		try {
+			fos = new FileOutputStream("ListHistory.ser");
+			oos = new ObjectOutputStream(fos);
+			oos.writeObject(list);
+			oos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}		
+		
+	}
+	public void savePortfolioInFile() {
+		
+		FileOutputStream fos = null;
+		ObjectOutputStream oos = null;
+		
+		try {
+			fos = new FileOutputStream("Portfolio.ser");
+			oos = new ObjectOutputStream(fos);
+			oos.writeObject(this.getHoldings());
+			oos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}		
+		
+	}
+	
+	public void clearFile(){
+		try{
+			FileWriter fw= new FileWriter("ListHistory.ser",false);
+			PrintWriter pw= new PrintWriter(fw, false);
+			pw.flush();
+			pw.close();
+			fw.close();
+		} catch(IOException e){
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 }

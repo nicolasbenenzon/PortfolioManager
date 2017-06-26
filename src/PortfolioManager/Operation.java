@@ -30,6 +30,7 @@ public class Operation implements Serializable{
 	private final boolean isBuyingOperation;
 	private final Asset asset;
 	private final Date date;
+	private static int operationNumber = 0;
 	/**
 	 * Amount of the asset to be purchased/sold
 	 */
@@ -70,69 +71,14 @@ public class Operation implements Serializable{
 		return date;
 	}
 	
-	public void updatePorfolio() {
-		// creo que este metodo deberia ir en Portfolio
+	public static int getOperationNumber(){
+		return operationNumber;
 	}
 	
-	public void operate(Operation op){
-		
+	public static void setOperationNumber(int n){
+		operationNumber=n;
 	}
-	/*
-	void writeOperationInHistoryFile(Operation operation){	//o es un m�todo static, o es de instancia y no recibe parametros
-		
-		String fileName = "operationHistory.ser";
-		FileOutputStream fos = null;
-		ObjectOutputStream oos = null;
-		
-		try {
-			fos = new FileOutputStream(fileName);
-			oos = new ObjectOutputStream(fos);
-			oos.writeObject(operation);
-			oos.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch(IOException e) {
-			e.printStackTrace();
-		}		
-	}
-	 *Hay lo que decia santi
-	 *  de manejar el flujo con 
-	 *  try-catch pero es la unica
-	 *   manera que encontre
-	 *   
-	 *   Esto esta bien en archivos, no queda otra (me parece?)
 	
-	public static Collection<Operation> readFromFile() {  
-		List<Operation> operationList = new ArrayList<Operation>();
-		String fileName = "operationHistory.ser";
-		FileInputStream fis = null;
-		ObjectInputStream ois = null;
-		
-		try {
-			fis = new FileInputStream(fileName);  
-			ois = new ObjectInputStream(fis); 
-	    	while(true) {
-	    		Operation operation = (Operation) ois.readObject();	
-	    		operationList.add(operation);
-	    	}
-	    } catch (EOFException expectedException) {
-	    	  //continue to finally block
-	    } catch (ClassNotFoundException cnf) {
-	    	  cnf.printStackTrace();
-	    } catch (IOException io) {
-	    	  io.printStackTrace();
-	    } finally {
-	    	try {
-	    		if( ois != null )
-	    			ois.close();
-	        } catch (IOException e){
-	        	e.printStackTrace();
-	        }
-	    }
-		 return operationList;
-	}
-	*/
-
 	public boolean isBuyingOperation() {
 		return isBuyingOperation;
 	}

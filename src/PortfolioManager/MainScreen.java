@@ -306,7 +306,7 @@ public class MainScreen {
 	        	DefaultTableModel modelHistory = new DefaultTableModel(col, 0);
 
 	        	
-	        	for(Operation o: miPortfolio.getHistory()){
+	        	for(Operation o: miPortfolio.readOperationListFromFile()){
 	        		
 	        		String data[]={o.getAsset().getName(), o.getDate().toString(),  Integer.toString(o.getPurchaseAmount()),"$" + Double.toString(o.getPurchaseValue()*o.getPurchaseAmount()),"  " + (o.isBuyingOperation()?"Compra":"Venta")};
         		

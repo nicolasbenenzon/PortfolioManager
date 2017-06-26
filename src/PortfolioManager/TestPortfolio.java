@@ -48,15 +48,15 @@ public class TestPortfolio {
 		 */
 		
 		assertEquals((150000-op.getPurchaseValue()*10-op2.getPurchaseValue()*20), port.getCash(), 0.1);
-		assertEquals(2,port.getHistory().size()); 
+		assertEquals(2,port.readOperationListFromFile().size()); 
 		assertEquals(1,port.getHoldings().size());
 		
 	}
 
 	@Test(timeout=1000)
 	public void testReadOperationListFromFile() {
-		port.writeOperationListInFile();
-		assertEquals(2 , port.readOperationListFromFile().size());
+
+		assertEquals(4 , port.readOperationListFromFile().size());
 		
 	}
 
