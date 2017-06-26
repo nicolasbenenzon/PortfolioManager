@@ -237,6 +237,7 @@ public class MainScreen {
 	        	if(event.getValueIsAdjusting() || ((DefaultListSelectionModel)event.getSource()).isSelectionEmpty())
 	        		return;
 	        	Integer index = tblHoldings.getSelectedRow();
+	        	tblHoldings.clearSelection();
 	        	String input = JOptionPane.showInputDialog("Ingrese la cantidad a vender");
 	        	Asset currentAsset = (Asset) tblHoldings.getValueAt(index, 0);
 	        	boolean isBuyingOperation = false;
@@ -640,12 +641,15 @@ public class MainScreen {
     			JOptionPane.showMessageDialog(new JFrame(), 
     					(isBuyingOperation) ? ("No puede comprar una cantidad negativa/nula"
     					+ " de activos.") : ("No posee tantos activos"), "Error", JOptionPane.ERROR_MESSAGE);
+    			tblHoldings.clearSelection();
     		}
     		catch(NumberFormatException e) {
     			JOptionPane.showMessageDialog(new JFrame(), "Debe ingresar un número.", "Error", JOptionPane.ERROR_MESSAGE);
+    			tblHoldings.clearSelection();
     		}
     		catch(InsufficientFundsException e) {
     			JOptionPane.showMessageDialog(new JFrame(), "¡Fondos insuficientes!", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    			tblHoldings.clearSelection();
     		}
 		}
 	}

@@ -65,7 +65,8 @@ public class HoldingsTableModel extends AbstractTableModel {
 			return (Object) myPortfolio.getHoldings().get(assetRequested).getAssetAmount();		
 		}
 		else {
-			return (Object) ("$" + myPortfolio.getHoldings().get(assetRequested).getMoneyInvested());
+			Double aux = myPortfolio.getHoldings().get(assetRequested).getMoneyInvested();
+			return (Object) ("$" + (Math.round(aux * 100.0)) / 100);
 		}
 	}
 

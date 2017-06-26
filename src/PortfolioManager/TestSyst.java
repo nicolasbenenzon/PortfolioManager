@@ -18,15 +18,8 @@ public class TestSyst {
 	
 	private Syst s;
 
-	@Before
-	public void setUp() throws Exception {
-		s=new Syst(null ,null, null, null,null);
 
-	}
-
-
-
-	@Test(timeout=2000)
+	@Test(timeout=2500)
 	public void testUpdate() {
 		
 		/*
@@ -34,8 +27,8 @@ public class TestSyst {
 		 * It also checks if the method actually worked and stocks were obtained.
 		 */
 		
-		s.updateValuesFromInternet();
-		assertTrue(!( s.getStocks()==null || s.getStocks().isEmpty()));
+		Syst.updateValuesFromInternet();
+		assertTrue(!( Syst.getStocks()==null || Syst.getStocks().isEmpty()));
 	}
 
 }

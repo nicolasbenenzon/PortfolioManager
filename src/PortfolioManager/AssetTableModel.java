@@ -37,7 +37,7 @@ public abstract class AssetTableModel<T extends Asset> extends AbstractTableMode
 		if(columnIndex == 0)
 			return (Object) asset;
 		else
-			return (Object) ("$" + asset.getValue());
+			return (Object) ("$" + (Math.round(asset.getValue() * 100.0)) / 100.0);
 	}
 
 }
