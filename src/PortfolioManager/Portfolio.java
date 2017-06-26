@@ -58,12 +58,12 @@ public class Portfolio {
 
 	public double getOverallGains() {
 		calcGains(); //estaria bueno hacer esto solo si pasaron 5min desde la ultima actualizacion
-		return overallGains;
+		return Math.round(overallGains * 100.0) / 100.0;
 	}
 
 	public double getOverallReturns() {
 		calcReturns(); //estaria bueno hacer esto solo si pasaron 5min desde la ultima actualizacion
-		return overallReturns;
+		return Math.round(overallReturns * 100.0) / 100.0;
 	}
 	
 	private void calcGains() {
@@ -98,6 +98,7 @@ public class Portfolio {
 	
 	private void operate(Asset asset, int amount, double price) {
 		PurchaseInfo info;
+		System.out.println(amount);
 		if(!holdings.containsKey(asset)) {
 			holdings.put(asset, new PurchaseInfo(amount * price, amount));
 		}
@@ -129,7 +130,7 @@ public class Portfolio {
 			else
 				operate(operation.getAsset(), operation.getPurchaseAmount(), operation.getPurchaseValue());
 		}
-		else { System.out.println("hola");
+		else {
 			if(!holdings.containsKey(operation.getAsset()) 
 					|| holdings.get(operation.getAsset()).getAssetAmount() < operation.getPurchaseAmount()){
 				throw new NegativeAssetAmountException();

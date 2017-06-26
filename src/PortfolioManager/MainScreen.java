@@ -236,9 +236,8 @@ public class MainScreen {
 	        public void valueChanged(ListSelectionEvent event) {
 	        	if(event.getValueIsAdjusting() || ((DefaultListSelectionModel)event.getSource()).isSelectionEmpty())
 	        		return;
-	        	//System.out.println((DefaultListSelectionModel)event.getSource());
+	        	Integer index = tblHoldings.getSelectedRow();
 	        	String input = JOptionPane.showInputDialog("Ingrese la cantidad a vender");
-	        	int index = tblHoldings.getSelectedRow();
 	        	Asset currentAsset = (Asset) tblHoldings.getValueAt(index, 0);
 	        	boolean isBuyingOperation = false;
 	        	processOperation(miPortfolio, holdingsTableModel, isBuyingOperation, currentAsset, input);
