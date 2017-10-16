@@ -7,10 +7,16 @@ package PortfolioManager;
 
 public class Futuro extends Asset {
 
-	public Futuro(double value, double min, double max, double open, double close, double variation, int amount,
-			String name, String ticker) {
-		super(value, min, max, open, close, variation, amount, name, ticker);
-		// TODO Auto-generated constructor stub
+	public Futuro(double value, double variation, String ticker) {
+		super(value, variation, ticker);
+	}
+	
+	public Futuro(double value, String ticker) {
+		super(value, 0, ticker);
+	}
+	
+	public Futuro() {
+		super(0, 0, "");
 	}
 
 }

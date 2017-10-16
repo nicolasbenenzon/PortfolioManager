@@ -40,8 +40,6 @@ public class Operation implements Serializable{
 	 */
 	private final double purchaseValue;
 	
-	//Asegurar que purchaseAmount sea positivo
-	
 	public Operation(boolean isBuyingOperation, Asset asset, Date date, int purchaseAmount){
 		
 		if(purchaseAmount < 0)

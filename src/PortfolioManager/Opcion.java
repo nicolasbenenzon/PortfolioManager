@@ -6,18 +6,31 @@ import java.util.Date;
  *
  */
 
-public class Opcion extends Expire{
+public class Opcion extends Asset{
 
 	String type;
 	Asset subyacente;
 	double prima;
 	
-	public Opcion(double value, double min, double max, double open, double close, double variation, int amount,
-			String name, String ticker, Date expiration, String type, Asset subyacente, double prima) {
-		super(value, min, max, open, close, variation, amount, name, ticker, expiration);
+	public Opcion(double value, double variation, String ticker/*, Date expiration*/, String type, Asset subyacente, double prima) {
+		super(value, variation, ticker/*, expiration*/);
 		this.type = type;
 		this.subyacente = subyacente;
 		this.prima = prima;
+	}
+	
+	public Opcion(double value, String ticker) {
+		super(value, 0, ticker);
+		this.type = "";
+		this.subyacente = null;
+		this.prima = 0;
+	}
+	
+	public Opcion() {
+		super(0, 0, "");
+		this.type = "";
+		this.subyacente = null;
+		this.prima = 0;
 	}
 
 }
