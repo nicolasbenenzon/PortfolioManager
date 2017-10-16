@@ -3,7 +3,7 @@
 Investment Portfolio Manager for asset allocation and detecting business opportunities in the financial market.
 
 
-![alt text](https://imgur.com/f0aYiC3)
+![Screenshot](https://imgur.com/f0aYiC3)
 ![alt text](https://imgur.com/52OQvNB)
 ![alt text](https://imgur.com/MLHw1AY)
 ![alt text](https://imgur.com/1b3YSUS)
