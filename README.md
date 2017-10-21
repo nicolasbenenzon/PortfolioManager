@@ -1,6 +1,6 @@
 # PortfolioManager
 
-Investment Portfolio Manager for asset allocation and detecting business opportunities in the financial market.
+Investment Portfolio Manager software for asset allocation and detection of business opportunities in the financial market.
 
 ![f0ayic3](https://user-images.githubusercontent.com/6405595/31610151-672e3416-b24d-11e7-91d7-4b501dbf0e54.jpg)
 
