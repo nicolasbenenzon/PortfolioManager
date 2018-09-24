@@ -2,6 +2,8 @@
 
 Investment Portfolio Manager software for asset allocation and detection of business opportunities in the financial market.
 
+This tool can be used (specially when there's an economic crisis in Argentina) to buy stocks in Argentine pesos and sell them in US dollars getting a cheaper dollar than the market if you use the right stock for each operation. The software automatically calculates the best stock to use for each operation scrapping real time stock market data (that technique here in Argentina is called “Dólar contado con liquidación”).
+
 ![f0ayic3](https://user-images.githubusercontent.com/6405595/31610151-672e3416-b24d-11e7-91d7-4b501dbf0e54.jpg)
 
 ![c43v9vf](https://user-images.githubusercontent.com/6405595/31610152-674f07c2-b24d-11e7-8318-27133babf4ae.jpg)
